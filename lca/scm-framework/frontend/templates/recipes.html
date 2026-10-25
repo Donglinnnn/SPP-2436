@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build your mixture · Net-Zero Concrete</title><meta name="theme-color" content="#333333">
+  <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='nzc-brand.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='recipes.css') }}">
+</head><body class="nzc-workspace recipe-workspace">
+  <a class="skip-link" href="#main">Skip to recipe</a>
+  <aside class="sidebar"><a class="brand" href="/" aria-label="SCM pathway builder"><img class="brand-logo" src="{{ url_for('static', filename='brand/NZC_RGB-23.jpg') }}" width="1417" height="1380" alt="Net-Zero Concrete · SPP 2436"></a>
+    <nav class="main-nav" aria-label="Workspace"><a class="nav-item" data-short="SCM" title="Build SCM material" href="/">1 · Build SCM material</a><a class="nav-item active" data-short="Mix" title="Build a mix" href="/recipes" aria-current="page">2 · Build a mix</a><a class="nav-item" data-short="GWP" title="Mix results" href="#recipeResults">Mix results</a><a class="nav-item" data-short="Saved" title="Saved mixes" href="#savedRecipes">Saved mixes</a></nav>
+  </aside>
+  <div class="app-shell"><header class="topbar"><a class="header-brand" href="/"><img src="{{ url_for('static', filename='brand/NZC_RGB-25.jpg') }}" width="2013" height="593" alt="Net-Zero Concrete · SPP 2436"></a></header>
+  <main id="main"><div class="page-heading"><div><h1>Build your mixture<span class="title-dot">.</span></h1></div><a class="button" href="/">← Build SCM material</a></div>
+    {% set workflow_stage = 'mix' %}{% include 'scm-mix-flow.html' %}
+    <p id="recipeNotice" class="notification" role="status" aria-live="polite" hidden></p>
+    <form id="recipeForm"><fieldset id="recipeFields" disabled>
+      <div class="recipe-columns"><div class="recipe-main">
+      <section class="card"><div class="card-heading"><div class="section-heading"><h2>Mixture recipe</h2></div></div>
+        <div class="recipe-grid"><label class="wide">Recipe name<input id="recipeName" maxlength="200" required></label><label>Specimen class<select id="specimenClass"><option value="paste">Paste</option><option value="mortar">Mortar</option><option value="concrete">Concrete</option><option value="foam_concrete">Foam concrete</option></select></label><label>Input basis<select id="recipeBasis"><option value="per_m3">kg per 1 m³ fresh mixture</option><option value="batch">kg per batch — convert to 1 m³</option></select></label></div>
+        <div class="cement-picker"><label>Cement activity · ecoinvent catalogue<select id="cementCode"></select></label></div>
+        <section class="recipe-definition" aria-labelledby="recipeDefinitionTitle">
+          <h3 id="recipeDefinitionTitle">Define your recipe</h3>
+          <div class="ingredient-head"><span>Ingredient</span><span id="massUnit">Mass · kg/m³</span></div><div id="ingredientRows"></div>
+          <div id="recycledControls" hidden><label>Recovered target yield · %<input id="recycledYield" type="number" min="0.001" max="100" step="any"></label><details><summary>Recycled inventory basis</summary><p>Each recycled fraction uses Crushing → Screening. Default yield: <span id="recycledDefaultYield"></span>%; no reject treatment or coproduct credit. The SCM route is not counted again.</p></details></div>
+          <section class="direct-materials-section" aria-labelledby="otherMaterialsTitle"><div class="card-heading"><h4 id="otherMaterialsTitle">Other materials</h4></div><div class="direct-search"><input id="directSearch" type="search" aria-label="Search other materials" placeholder="Search by material name…"><select id="directSearchResults" aria-label="Select a material to add" hidden></select></div><div id="directMaterialRows" aria-live="polite"></div><details><summary>Inventory scope</summary><p>Only kilogram-based ecoinvent markets are selectable. Materials without a verified inventory cannot be treated as zero burden.</p></details></section>
+        </section>
+      </section>
+      <section class="card recipe-delivery" aria-labelledby="scmTransportTitle"><div class="card-heading"><h2 id="scmTransportTitle">SCM delivery</h2></div>
+        <label class="recipe-check"><input id="scmTransportEnabled" type="checkbox">SCM → concrete / mortar plant</label>
+        <div id="scmTransportFields" hidden><div class="recipe-grid"><label class="wide">One-way loaded distance · km<input id="scmTransportDistance" type="number" min="0.001" step="any"></label></div><label>SCM freight dataset · ecoinvent<select id="scmTransportSource"></select></label></div>
+        <details><summary>Delivery basis</summary><p>Dry SCM kg ÷ 1,000 × one-way km = tonne-km. The freight dataset includes average empty returns; inbound waste transport remains in the SCM item.</p></details>
+      </section>
+      <section class="card"><div class="card-heading"><h2>Volume &amp; mixing</h2></div>
+        <div id="batchControls" class="recipe-grid" hidden><label>Fresh batch volume<select id="volumeMode"><option value="absolute">Estimate from particle densities + air</option><option value="measured">I have measured the batch volume</option></select></label><label id="measuredVolumeLabel" hidden>Measured volume · m³<input id="measuredVolume" type="number" min="0.000000001" step="any"></label></div>
+        <details><summary>Densities &amp; air</summary><div class="recipe-grid" id="densityFields"></div><label>Air content · volume %<input id="airPercent" type="number" min="0" max="99.99" step="any"></label></details>
+        <label>Mixing inventory<select id="preparationMode"><option value="mixing">Mixing</option><option value="foam">Foam concrete mixing · provisional per tonne</option><option value="none">No mixing inventory</option></select></label><div id="foamPreparationFields" class="foam-preparation-fields" hidden><div class="recipe-grid"><label>Reference mix mass · kg<input id="foamReferenceMass" type="number" min="0.000001" step="any"></label><label>Heavy machine · kg per inventory unit<input id="foamMachineKgPerUnit" type="number" min="0.000001" step="any"></label></div><details><summary>Why these defaults?</summary><p id="foamDefaultsSource"></p></details></div><details id="mixingInventoryBasis"><summary>Mixing inventory</summary><p id="prepSource"></p><p>Process water and its wastewater/evaporation flows are included; recipe water and other ingredients are counted separately.</p></details>
+      </section></div>
+      <aside class="recipe-aside"><section class="card performance-card"><h2>Measured strength</h2><label>Compressive strength · MPa<input id="strengthMpa" type="number" min="0.000001" step="any"></label><label>Test age · days<input id="strengthAge" type="number" min="0.001" value="28" step="any"></label><label class="recipe-check"><input id="strengthMatched" type="checkbox">Strength matches this exact recipe.</label><div class="formula-note">I₂₈ = GWP per m³ / f<sub>c,28</sub></div><details><summary>Comparison limit</summary><p>Strength is not predicted. Compare only matching specimen classes and test conditions; this is not a performance-equivalent functional unit.</p></details></section>
+        <section class="card reference-card" id="referenceConcreteCard"><h2>Reference concrete</h2><label>ecoinvent production activity<select id="referenceConcreteCode"><option value="">Select Concrete as specimen class</option></select></label></section>
+      </aside></div>
+      <div class="run-bar"><div class="run-actions"><button type="button" class="button" id="saveRecipe">Save recipe snapshot</button><button type="submit" class="button primary" id="calculateRecipe">Calculate recipe →</button></div></div>
+    </fieldset></form>
+    <section id="recipeResults" aria-live="polite"><div class="results-heading"><h2>Mix results</h2><button class="button" id="exportRecipe" disabled>Export JSON</button></div><div id="recipeResultBody" class="card empty-state"><h2>No result yet</h2></div></section>
+    <section class="card" id="savedRecipes"><div class="card-heading"><h2>Saved recipe snapshots</h2><button type="button" class="button" id="refreshRecipes">Refresh</button></div><div id="savedRecipeList"></div></section>
+  </main></div>
+  <dialog id="historyScmDialog" class="reference-dialog" aria-labelledby="historyScmTitle"><form id="historyScmForm"><div class="dialog-heading"><h2 id="historyScmTitle">Use saved SCM</h2><button class="button" type="button" id="closeHistoryScm">Close</button></div><p id="historyScmRoute"></p><div class="reference-controls"><label>SCM material name<input id="historyScmName" required maxlength="200"></label><label>Particle density · kg/m³<input id="historyScmDensity" type="number" min="0.001" step="any" required></label></div><details><summary>Inherited LCA settings</summary><p>The paired electricity and process-heat scenario, transport and CO₂ supply follow this route. Released CO₂ +1; retained CO₂ −1.</p></details><p id="historyScmMessage" role="status" aria-live="polite"></p><button class="button primary" type="submit" id="confirmHistoryScm">Use SCM in mix</button></form></dialog>
+  <dialog id="recipeExportDialog" class="reference-dialog" aria-labelledby="recipeExportTitle"><div class="dialog-heading"><h2 id="recipeExportTitle">Recipe JSON</h2><button id="closeRecipeExport" class="button">Close</button></div><textarea id="recipeExportText" readonly rows="16" aria-label="Recipe JSON"></textarea><button class="button primary" id="downloadRecipeJson">Download JSON</button></dialog>
+  <script src="{{ url_for('static', filename='recipes.js') }}"></script>
+</body></html>

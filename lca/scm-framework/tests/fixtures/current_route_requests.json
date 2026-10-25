@@ -1,0 +1,402 @@
+{
+  "cases": [
+    {
+      "name": "grinding_input_basis",
+      "request": {
+        "pathway_name": "grinding_input_basis",
+        "functional_unit_kg": 2.5,
+        "processes": [
+          {
+            "process_name": "Grinding",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "F80_um",
+                "value": 1000,
+                "provenance": "ASM",
+                "source_note": "Synthetic test input; not an experimental claim."
+              },
+              {
+                "parameter_code": "P80_um",
+                "value": 100
+              },
+              {
+                "parameter_code": "Wi_value",
+                "value": 13.6
+              },
+              {
+                "parameter_code": "grinding_machine_kg_per_kg_processed",
+                "value": 4.41e-07
+              },
+              {
+                "parameter_code": "yield_fraction",
+                "value": 0.8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "grinding_output_basis_with_allocation",
+      "request": {
+        "pathway_name": "grinding_output_basis_with_allocation",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Grinding",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "F80_um",
+                "value": 1000
+              },
+              {
+                "parameter_code": "P80_um",
+                "value": 100
+              },
+              {
+                "parameter_code": "Wi_value",
+                "value": 13.6
+              },
+              {
+                "parameter_code": "grinding_machine_kg_per_kg_processed",
+                "value": 4.41e-07
+              },
+              {
+                "parameter_code": "yield_fraction",
+                "value": 0.8
+              },
+              {
+                "parameter_code": "inventory_basis",
+                "value": "target_output"
+              },
+              {
+                "parameter_code": "coproduct_fraction",
+                "value": 0.5
+              },
+              {
+                "parameter_code": "allocation_method",
+                "value": "mass"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "crushing_fixed_inventory",
+      "request": {
+        "pathway_name": "crushing_fixed_inventory",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Crushing",
+            "process_order": 1,
+            "parameters": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "sieving_output_basis",
+      "request": {
+        "pathway_name": "sieving_output_basis",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Sieving",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "input_mass_kg",
+                "value": 10
+              },
+              {
+                "parameter_code": "output_mass_kg",
+                "value": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "sorting_mass_allocation",
+      "request": {
+        "pathway_name": "sorting_mass_allocation",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Sorting",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "input_mass_kg",
+                "value": 10
+              },
+              {
+                "parameter_code": "output_mass_kg",
+                "value": 8
+              },
+              {
+                "parameter_code": "coproduct_fraction",
+                "value": 0.5
+              },
+              {
+                "parameter_code": "allocation_method",
+                "value": "mass"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "screening_input_basis",
+      "request": {
+        "pathway_name": "screening_input_basis",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Screening",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "input_mass_kg",
+                "value": 10
+              },
+              {
+                "parameter_code": "output_mass_kg",
+                "value": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "thermal_tga_yield",
+      "request": {
+        "pathway_name": "thermal_tga_yield",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Thermal activation",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "activation_temperature_C",
+                "value": 650
+              },
+              {
+                "parameter_code": "holding_time_h",
+                "value": 3
+              },
+              {
+                "parameter_code": "tga_intervals_table",
+                "value": [
+                  {
+                    "name": "water loss",
+                    "start_C": 100,
+                    "end_C": 500,
+                    "loss_fraction": 0.1,
+                    "h2o_share": 1.0,
+                    "co2_share": 0.0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "carbonation_wet",
+      "request": {
+        "pathway_name": "carbonation_wet",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Carbonation",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "carbonation_model",
+                "value": "general_operating_v2"
+              },
+              {
+                "parameter_code": "co2_uptake_kg",
+                "value": 0.1
+              },
+              {
+                "parameter_code": "t_reaction_h",
+                "value": 2
+              },
+              {
+                "parameter_code": "condition_inputs",
+                "value": {
+                  "water_mode": "wet",
+                  "water_powder_ratio": 2,
+                  "gas_mode": "none"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "carbonation_dry_chamber",
+      "request": {
+        "pathway_name": "carbonation_dry_chamber",
+        "functional_unit_kg": 1,
+        "processes": [
+          {
+            "process_name": "Carbonation",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "carbonation_model",
+                "value": "general_operating_v2"
+              },
+              {
+                "parameter_code": "co2_uptake_kg",
+                "value": 0.1
+              },
+              {
+                "parameter_code": "t_reaction_h",
+                "value": 672
+              },
+              {
+                "parameter_code": "condition_inputs",
+                "value": {
+                  "water_mode": "dry",
+                  "gas_mode": "chamber"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "serial_route_with_yield_allocation_and_CO2_gain",
+      "request": {
+        "pathway_name": "synthetic invariance route",
+        "reference_product": "synthetic dry product",
+        "functional_unit_kg": 3.5,
+        "material": {
+          "material_type": "synthetic",
+          "material_name": "Test feed",
+          "feedstock_burden_rule": "cutoff"
+        },
+        "processes": [
+          {
+            "process_name": "Grinding",
+            "process_order": 1,
+            "parameters": [
+              {
+                "parameter_code": "F80_um",
+                "value": 1000,
+                "provenance": "ASM",
+                "source_note": "Synthetic test input; not an experimental claim."
+              },
+              {
+                "parameter_code": "P80_um",
+                "value": 100
+              },
+              {
+                "parameter_code": "Wi_value",
+                "value": 13.6
+              },
+              {
+                "parameter_code": "grinding_machine_kg_per_kg_processed",
+                "value": 4.41e-07
+              },
+              {
+                "parameter_code": "yield_fraction",
+                "value": 0.8
+              }
+            ]
+          },
+          {
+            "process_name": "Sorting",
+            "process_order": 2,
+            "parameters": [
+              {
+                "parameter_code": "input_mass_kg",
+                "value": 10
+              },
+              {
+                "parameter_code": "output_mass_kg",
+                "value": 8
+              },
+              {
+                "parameter_code": "coproduct_fraction",
+                "value": 0.5
+              },
+              {
+                "parameter_code": "allocation_method",
+                "value": "mass"
+              }
+            ]
+          },
+          {
+            "process_name": "Thermal activation",
+            "process_order": 3,
+            "parameters": [
+              {
+                "parameter_code": "activation_temperature_C",
+                "value": 650
+              },
+              {
+                "parameter_code": "holding_time_h",
+                "value": 3
+              },
+              {
+                "parameter_code": "tga_intervals_table",
+                "value": [
+                  {
+                    "name": "water loss",
+                    "start_C": 100,
+                    "end_C": 500,
+                    "loss_fraction": 0.1,
+                    "h2o_share": 1.0,
+                    "co2_share": 0.0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "process_name": "Carbonation",
+            "process_order": 4,
+            "parameters": [
+              {
+                "parameter_code": "carbonation_model",
+                "value": "general_operating_v2"
+              },
+              {
+                "parameter_code": "co2_uptake_kg",
+                "value": 0.1
+              },
+              {
+                "parameter_code": "t_reaction_h",
+                "value": 2
+              },
+              {
+                "parameter_code": "condition_inputs",
+                "value": {
+                  "water_mode": "wet",
+                  "water_powder_ratio": 2,
+                  "gas_mode": "none"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

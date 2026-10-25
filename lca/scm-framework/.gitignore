@@ -1,0 +1,18 @@
+# Local state and licensed background results must never enter a public commit.
+data/
+src/recipes/preparation_inventory.json
+
+# Research-only archives still contain machine-specific source paths.
+validation/
+
+# Local configuration and Python/editor artifacts.
+local_config.toml
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.DS_Store

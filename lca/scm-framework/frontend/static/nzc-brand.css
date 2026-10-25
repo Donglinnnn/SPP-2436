@@ -1,0 +1,403 @@
+/* Shared SCM → mix navigation. Material production and mix design have distinct bases. */
+.nzc-workspace .scm-mix-flow{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);align-items:center;gap:12px;margin:0 0 26px}
+.nzc-workspace .workflow-stage{display:flex;gap:12px;align-items:center;min-width:0;padding:16px;border:1px solid #dce0df;border-radius:7px;background:#fff;color:#303333;text-decoration:none}
+.nzc-workspace .workflow-stage.current{border-color:#cfd4d1;background:#f0f5e5;box-shadow:none}
+.nzc-workspace .workflow-stage strong{display:block;font-family:inherit;font-size:.85rem;font-weight:600;line-height:1.4}
+.nzc-workspace .workflow-transfer{color:#688916;font-size:1.4rem;text-align:center}
+@media(max-width:580px){.nzc-workspace .scm-mix-flow{grid-template-columns:1fr;gap:6px}.nzc-workspace .workflow-stage{padding:12px}.nzc-workspace .workflow-transfer{transform:rotate(90deg);line-height:1}}
+
+/* Net-Zero Concrete / SPP 2436.
+ * Brand layer only: input schemas and calculation logic are untouched.
+ * The supplied JPGs are served unmodified, with their original aspect ratios.
+ */
+.nzc-workspace {
+  --nzc-charcoal: #333333;
+  --nzc-lime: #92bf23;
+  --nzc-lime-hover: #a4d12d;
+  --nzc-concrete: #8c8c8c;
+  --bg: #f3f4f4;
+  --paper: #ffffff;
+  --ink: #303333;
+  --muted: #626868;
+  --line: #dce0df;
+  --green: #4d6516;
+  --green-dark: #3b4e0d;
+  --mint: #f0f6df;
+  --accent: var(--nzc-lime);
+  --radius: 8px;
+  --sidebar: 236px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Compact read-only libraries alongside the remaining process inputs. */
+.nzc-workspace .library-panel {
+  background: #f5f8ee;
+  border: 1px solid #d5dfc2;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 0 0 20px;
+}
+.nzc-workspace .library-heading { display: flex; justify-content: space-between; gap: 10px; }
+.nzc-workspace .library-heading span { color: #4d6516; font-size: .75rem; }
+.nzc-workspace .library-panel p,
+.nzc-workspace .library-panel small { font-size: .75rem; color: #59664c; overflow-wrap: anywhere; }
+.nzc-workspace .library-panel .library-warning { color: #84520e; }
+.nzc-workspace .library-select { display: grid; gap: 8px; font-weight: 600; }
+.nzc-workspace .library-select select { width: 100%; min-width: 0; font-weight: 400; }
+.nzc-workspace .library-values { margin: 14px 0; font-size: .8125rem; }
+.nzc-workspace .library-values > div { display: flex; justify-content: space-between; gap: 14px; padding: 6px 0; border-bottom: 1px solid #e0e6d5; }
+.nzc-workspace .library-values dt { color: #59664c; }
+.nzc-workspace .library-values dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.nzc-workspace .tga-reaction-row { border: 1px solid #d5dfc2; border-radius: 6px; padding: 14px; margin: 14px 0; background: #f8faf4; }
+.nzc-workspace .tga-row-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.nzc-workspace .tga-row-heading strong { font-size: .875rem; }
+.nzc-workspace .tga-reaction-row label,
+.nzc-workspace .tga-add label { display: grid; gap: 6px; min-width: 0; }
+.nzc-workspace .tga-reaction-row select,
+.nzc-workspace .tga-add select { width: 100%; min-width: 0; }
+.nzc-workspace .reaction-equation { font-size: 1rem; font-weight: 600; color: #41561b; line-height: 1.6; overflow-wrap: anywhere; margin: 12px 0; }
+.nzc-workspace .tga-numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.nzc-workspace .tga-numbers label:last-child { grid-column: 1 / -1; }
+.nzc-workspace .tga-numbers input { min-width: 0; width: 100%; }
+.nzc-workspace .tga-gas { font-size: .875rem; color: #4d6516; margin-bottom: 4px; }
+.nzc-workspace .tga-source-note { font-size: .75rem; color: #626868; margin-top: 4px; }
+.nzc-workspace .tga-add { display: grid; gap: 10px; margin-top: 16px; }
+
+.nzc-workspace button:focus-visible,
+.nzc-workspace a:focus-visible {
+  outline: 2px solid #707874;
+  outline-offset: 2px;
+}
+.nzc-workspace .sidebar button:focus-visible,
+.nzc-workspace .sidebar a:focus-visible { outline-color: #c2c7c4; }
+.nzc-workspace input:focus,
+.nzc-workspace select:focus,
+.nzc-workspace textarea:focus {
+  outline: 2px solid #707874;
+  outline-offset: 1px;
+}
+.nzc-workspace .sidebar {
+  background: var(--nzc-charcoal);
+  color: #e3e5e2;
+  border-right: 1px solid #464846;
+  padding: 14px 14px 20px;
+}
+.nzc-workspace .brand {
+  display: block;
+  margin: 0 0 26px;
+  line-height: 0;
+}
+.nzc-workspace .brand-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.nzc-workspace .workspace-label {
+  color: #bfc4b9;
+  font-size: .75rem;
+  letter-spacing: .08em;
+  margin: 0 10px 14px;
+}
+.nzc-workspace .nav-item {
+  font-size: .875rem;
+  color: #d0d3ce;
+  padding: 13px 11px;
+  gap: 10px;
+  border-radius: 5px;
+  min-height: 46px;
+}
+.nzc-workspace .nav-item:hover {
+  background: #40433a;
+  color: #ffffff;
+}
+.nzc-workspace .nav-item.active {
+  background: #434b31;
+  box-shadow: none;
+  color: #d7ef9b;
+}
+.nzc-workspace .nav-count {
+  background: #343a28;
+  color: #e3f5b8;
+  font-size: .75rem;
+}
+.nzc-workspace .sidebar-rule {
+  border-color: #50514e;
+  margin: 26px 10px;
+}
+.nzc-workspace .sidebar-bottom { padding: 24px 8px 0; }
+.nzc-workspace .source-mini { color: #c0d494; }
+.nzc-workspace .source-mini strong,
+.nzc-workspace .profile strong { font-size: .75rem; color: #eeeeeb; }
+.nzc-workspace .source-mini span:not([data-icon]),
+.nzc-workspace .profile div span { font-size: .75rem; color: #b5bbb0; }
+.nzc-workspace .profile { border-color: #50514e; gap: 8px; }
+.nzc-workspace .avatar { background: #4b5141; color: #e9f4d2; font-size: .75rem; }
+.nzc-workspace .live-dot { background: var(--nzc-lime); }
+
+/* The authentic horizontal logo forms a compact masthead, not a hero section. */
+.nzc-workspace .topbar {
+  height: auto;
+  min-height: 92px;
+  background: var(--nzc-charcoal);
+  border-bottom: 3px solid var(--nzc-lime);
+  padding: 0 32px 0 20px;
+  gap: 20px;
+}
+.nzc-workspace .header-brand {
+  display: block;
+  flex: 0 1 355px;
+  min-width: 200px;
+  line-height: 0;
+}
+.nzc-workspace .header-brand img { display: block; width: 100%; height: auto; }
+.nzc-workspace .topbar-context { min-width: 0; text-align: right; }
+.nzc-workspace .breadcrumbs { justify-content: flex-end; color: #c1c6bd; font-size: .75rem; }
+.nzc-workspace .breadcrumbs strong { color: #ffffff; }
+.nzc-workspace .breadcrumbs span { color: var(--nzc-lime); }
+.nzc-workspace main { max-width: 1590px; padding: 32px; }
+.nzc-workspace .page-heading { gap: 24px; margin-bottom: 28px; }
+.nzc-workspace .eyebrow { color: #66734e; font-size: .75rem; letter-spacing: .11em; }
+.nzc-workspace .page-heading h1 {
+  font-family: "Arial Narrow", "Aptos Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.875rem, 2.5vw, 2.375rem);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  margin: 10px 0 12px;
+}
+.nzc-workspace .title-dot { color: #719d16; }
+.nzc-workspace .page-heading p { font-size: .875rem; color: var(--muted); max-width: 650px; }
+.nzc-workspace .heading-actions { gap: 10px; flex-shrink: 0; }
+.nzc-workspace .button {
+  min-height: 42px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: .875rem;
+  color: #3f4743;
+  border-color: #cdd3ce;
+  background: #ffffff;
+}
+.nzc-workspace .button:hover { background: #f1f4ed; border-color: #9baa88; }
+.nzc-workspace .button.primary {
+  background: var(--nzc-lime);
+  border-color: var(--nzc-lime);
+  color: #202915;
+  font-weight: 650;
+}
+.nzc-workspace .button.primary:hover { background: var(--nzc-lime-hover); border-color: var(--nzc-lime-hover); }
+.nzc-workspace .button svg { width: 17px; height: 17px; }
+.nzc-workspace .text-button { font-size: .75rem; color: #50651f; min-height: 32px; }
+.nzc-workspace .text-button svg { width: 15px; height: 15px; }
+.nzc-workspace .notification { font-size: .875rem; border-radius: 6px; background: #f0f6e2; border-color: #c3d798; }
+.nzc-workspace .notification.error { color: #8a451c; background: #fff3eb; border-color: #e6c6b1; }
+
+.nzc-workspace .workspace-summary { background: #e9ece7; border-color: #d8ded4; border-radius: 7px; padding: 16px 22px; }
+.nzc-workspace .small-label { font-size: .75rem; color: #5b6756; letter-spacing: .06em; }
+.nzc-workspace .segment { font-size: .875rem; padding: 8px 20px; color: #66735c; }
+.nzc-workspace .segment.selected { color: #354615; border-color: #cfd4d1; background: white; }
+.nzc-workspace .boundary-summary { border-color: #cbd2c4; }
+.nzc-workspace .boundary-summary .small-label { font-size: .75rem; }
+.nzc-workspace .boundary-summary strong { font-size: .875rem; color: #384230; }
+.nzc-workspace .boundary-icon { color: #6b8148; }
+.nzc-workspace .workbench { grid-template-columns: minmax(0, 1fr) 400px; gap: 24px; }
+.nzc-workspace .workbench-main { gap: 22px; }
+.nzc-workspace .card { border-color: #dce0de; border-radius: 8px; box-shadow: 0 2px 5px #28311c04; }
+.nzc-workspace .material-card,
+.nzc-workspace .route-card { padding: 22px; }
+.nzc-workspace .section-heading h2 { font-size: 1.0625rem; color: #343c35; }
+.nzc-workspace .section-number { width: 28px; height: 28px; font-size: .75rem; color: #55642d; background: #edf2e3; border-radius: 4px; }
+.nzc-workspace .material-fields { gap: 17px 18px; margin-top: 23px; }
+.nzc-workspace label { font-size: .875rem; color: #536052; }
+.nzc-workspace input,
+.nzc-workspace select,
+.nzc-workspace textarea { font-size: .875rem; border-color: #d7ddd5; color: #30392e; padding: 10px 11px; border-radius: 5px; }
+.nzc-workspace input::placeholder,
+.nzc-workspace textarea::placeholder { color: #757e70; }
+.nzc-workspace .optional { font-size: .75rem; color: #6f7869; }
+.nzc-workspace .radio-row { background: #f0f2ed; border-color: #e1e5db; }
+.nzc-workspace .radio-pill { color: #626e56; font-size: .875rem; padding: 5px 12px; }
+.nzc-workspace .radio-pill.active { color: #394b19; }
+.nzc-workspace .quiet-badge { font-size: .75rem; color: #55633e; background: #f1f5e8; border-color: #dce6c9; }
+.nzc-workspace .card-description { font-size: .875rem; color: #64705c; margin-top: 11px; }
+.nzc-workspace .resource-row { padding: 20px 0; flex-wrap: wrap; gap: 10px; }
+.nzc-workspace .resource-row .small-label { font-size: .75rem; }
+.nzc-workspace .resource-chips span { font-size: .75rem; color: #626d59; background: #f7f9f2; border-color: #e0e6d5; padding: 4px 7px; }
+.nzc-workspace .process-grid { gap: 10px; }
+.nzc-workspace .process-node { border-radius: 5px; background: #f8f9f7; border-color: #dde3d6; }
+.nzc-workspace .process-node.active { background: #f2f7e5; border-color: #cfd4d1; }
+.nzc-workspace .process-node.current.active { border: 1px solid #b8c1bb; box-shadow: none; }
+.nzc-workspace .process-node.current:not(.active) { background: #f8f9f7; border: 1px solid #8b9480; }
+.nzc-workspace .process-select { padding: 16px 12px 14px; color: #636f57; }
+.nzc-workspace .process-select .process-icon { margin-bottom: 16px; }
+.nzc-workspace .process-select .process-icon svg { width: 25px; height: 25px; }
+.nzc-workspace .process-select strong { font-size: .875rem; font-weight: 600; white-space: normal; line-height: 1.35; }
+.nzc-workspace .process-select small { font-size: .75rem; color: #687559; margin-top: 6px; }
+.nzc-workspace .active .process-select { color: #40551c; }
+.nzc-workspace .active .process-select small { color: #5b6e3e; }
+.nzc-workspace .process-toggle { width: 22px; height: 22px; top: 11px; right: 10px; border-color: #c3cdb6; }
+.nzc-workspace .process-toggle svg { width: 13px; height: 13px; }
+.nzc-workspace .active .process-toggle { background: var(--nzc-lime); border-color: #83aa29; color: #283716; }
+.nzc-workspace .route-legend { color: #657358; font-size: .75rem; gap: 14px; }
+.nzc-workspace .legend-dot { width: 8px; height: 8px; border-color: #aebd97; }
+.nzc-workspace .legend-dot.selected { background: var(--nzc-lime); border-color: #7a9c32; }
+.nzc-workspace .flow-card { padding: 18px 22px; }
+.nzc-workspace .flow-card h2 { font-size: .875rem; }
+.nzc-workspace .flow-card .small-label { font-size: .75rem; }
+.nzc-workspace .flow-step { font-size: .75rem; background: #f7f9f2; color: #52613c; border-color: #d4dfc2; padding: 8px 10px; }
+.nzc-workspace .flow-step.endpoint { background: #e9efdd; }
+.nzc-workspace .flow-arrow { color: #7c8d67; font-size: 1rem; }
+
+/* Carbon-grey editor header makes the active process distinct from the route. */
+.nzc-workspace .parameter-card { padding: 0 22px; top: 20px; }
+.nzc-workspace .parameter-heading { margin: 0 -22px; padding: 21px 22px; background: #383c35; border-radius: 8px 8px 0 0; gap: 14px; border-top: 3px solid #535a53; }
+.nzc-workspace .parameter-heading .eyebrow { color: #c1d49e; font-size: .75rem; }
+.nzc-workspace .parameter-heading h2 { color: #ffffff; font-size: 1.5rem; font-weight: 550; margin-top: 5px; }
+.nzc-workspace .status-pill { font-size: .75rem; background: #515f39; border-color: #6f8350; color: #e5f5c8; }
+.nzc-workspace .status-pill.excluded { background: #50534c; border-color: #7c8175; color: #e3e7dd; }
+.nzc-workspace .parameter-caption { padding: 14px 0; }
+.nzc-workspace .parameter-caption p { font-size: .75rem; color: #657257; }
+.nzc-workspace .parameter-field { padding: 19px 0; border-color: #e6ebdf; }
+.nzc-workspace .parameter-title { font-size: .875rem; color: #414e35; font-weight: 600; }
+.nzc-workspace .parameter-value-row { grid-template-columns: minmax(0, 1fr) 105px; gap: 9px; }
+.nzc-workspace .parameter-value-row input,
+.nzc-workspace .parameter-value-row textarea,
+.nzc-workspace .parameter-value-row select { font-size: .875rem; }
+.nzc-workspace .parameter-value-row input[data-field="unit"] { background: #f1f4ed; color: #5f6b51; }
+.nzc-workspace .provenance-row { grid-template-columns: 87px minmax(0, 1fr); gap: 9px; margin-top: 12px; }
+.nzc-workspace .provenance-row label { font-size: .75rem; color: #67735a; }
+.nzc-workspace .provenance-row input,
+.nzc-workspace .provenance-row select { font-size: .75rem; padding: 7px; color: #525f45; border-color: #dce4d1; }
+.nzc-workspace .parameter-field textarea { font-size: .8125rem; min-height: 120px; }
+.nzc-workspace .parameter-footer { margin: 20px -22px 0; padding: 15px 22px; border-radius: 0 0 8px 8px; background: #f5f7f0; }
+.nzc-workspace .parameter-footer .button { font-size: .8125rem; min-height: 38px; }
+.nzc-workspace .parameter-footer span { font-size: .75rem; color: #657455; }
+.nzc-workspace .advanced summary { font-size: .875rem; color: #536d24; padding: 5px 0; }
+.nzc-workspace .advanced p { font-size: .75rem; color: #657455; }
+.nzc-workspace .input-note { font-size: .875rem; color: #835c24; }
+.nzc-workspace .inactive-note { font-size: .875rem; }
+.nzc-workspace .run-bar { padding: 20px 22px; border-radius: 7px; background: #333831; border: 1px solid #454f3b; box-shadow: none; }
+.nzc-workspace .run-bar strong { font-size: .9375rem; color: #f1f4e9; }
+.nzc-workspace .run-bar p { font-size: .75rem; color: #c8d3b9; max-width: 430px; }
+.nzc-workspace .functional-unit { font-size: .75rem; color: #d3ddc4; }
+.nzc-workspace .functional-unit span { font-size: .8125rem; color: #d3ddc4; }
+.nzc-workspace .functional-unit input { font-size: .875rem; width: 75px; padding: 7px 8px; }
+
+/* Same identity across results, saved projects and the existing reference dialogs. */
+.nzc-workspace .empty-state h2 { font-size: 1.5rem; }
+.nzc-workspace .empty-state p { font-size: 1rem; }
+.nzc-workspace .metrics { gap: 18px; }
+.nzc-workspace .metric { padding: 24px; border-top: 3px solid var(--nzc-lime); }
+.nzc-workspace .metric-label { font-size: .875rem; color: #596a43; }
+.nzc-workspace .metric-value { font-size: clamp(1.75rem, 2.4vw, 2.25rem); font-weight: 600; color: #343d2a; }
+.nzc-workspace .metric-unit { font-size: .75rem; color: #657651; }
+.nzc-workspace .results-table-card h2 { font-size: 1.0625rem; }
+.nzc-workspace table { font-size: .875rem; }
+.nzc-workspace th { font-size: .8125rem; color: #5b6b42; background: #f1f5e8; border-color: #d6e1c1; }
+.nzc-workspace td { border-color: #e2e9d8; }
+.nzc-workspace .result-note { font-size: .875rem; color: #607148; }
+.nzc-workspace .result-warning { font-size: .875rem; color: #785724; border-radius: 6px; background: #fcf7ec; }
+.nzc-workspace .result-details summary { font-size: .875rem; color: #586f2e; }
+.nzc-workspace .result-details pre { font-size: .8125rem; background: #f2f5eb; }
+.nzc-workspace .project-card h2 { font-size: 1.125rem; }
+.nzc-workspace .project-card p { font-size: .875rem; color: #607148; }
+.nzc-workspace .project-card small { font-size: .75rem; color: #63714f; }
+.nzc-workspace .reference-dialog { border-radius: 9px; padding: 28px; border-top: 4px solid var(--nzc-lime); }
+.nzc-workspace .reference-dialog::backdrop { background: #24282388; backdrop-filter: blur(2px); }
+.nzc-workspace .dialog-heading h2 { font-size: 1.625rem; }
+.nzc-workspace .icon-button { color: #556639; min-width: 40px; min-height: 40px; }
+.nzc-workspace .reference-intro { font-size: .875rem; color: #5e704b; }
+.nzc-workspace .reference-version { font-size: .8125rem; color: #80612e; }
+.nzc-workspace .reference-table td { font-size: .8125rem; }
+.nzc-workspace .reference-detail { font-size: .75rem; color: #63754e; }
+.nzc-workspace .source-cell { font-size: .75rem; color: #63754e; }
+.nzc-workspace #exportJson { font-size: .8125rem; }
+.nzc-workspace .page-footer { font-size: .75rem; color: #68705f; gap: 18px; flex-wrap: wrap; }
+.nzc-workspace .page-footer > span:first-child { font-weight: 600; color: #545b4c; }
+.nzc-workspace .page-footer em { font-style: normal; color: #52710d; }
+.nzc-workspace .page-footer .footer-program { margin: 0 0 0 6px; color: #737b68; font-weight: 400; }
+
+@media (max-width: 1440px) {
+  .nzc-workspace main { padding: 28px 24px; }
+  .nzc-workspace .workbench { grid-template-columns: minmax(0, 1fr) 370px; gap: 20px; }
+  .nzc-workspace .heading-actions { flex-direction: column; align-items: stretch; }
+  .nzc-workspace .route-legend span:last-child { display: none; }
+  .nzc-workspace .run-bar { align-items: flex-start; }
+  .nzc-workspace .run-bar p { max-width: 340px; }
+}
+@media (max-width: 1199px) {
+  .nzc-workspace { --sidebar: 76px; }
+  .nzc-workspace .sidebar { padding: 15px 8px; }
+  .nzc-workspace .brand { margin: 2px -4px 27px; }
+  .nzc-workspace .brand-logo { width: 100%; height: auto; }
+  .nzc-workspace .workspace-label,
+  .nzc-workspace .sidebar-bottom,
+  .nzc-workspace .sidebar-rule,
+  .nzc-workspace .nav-count { display: none; }
+  .nzc-workspace .nav-item { font-size: 0; justify-content: center; padding: 15px; margin-bottom: 7px; }
+  .nzc-workspace .nav-item svg { width: 23px; height: 23px; }
+  .nzc-workspace .topbar { padding-right: 24px; }
+  .nzc-workspace .header-brand { flex-basis: 320px; }
+  .nzc-workspace .workbench { grid-template-columns: minmax(0, 1fr) 355px; gap: 18px; }
+  .nzc-workspace .material-card,
+  .nzc-workspace .route-card { padding: 19px; }
+  .nzc-workspace .parameter-card { padding: 0 18px; }
+  .nzc-workspace .parameter-heading { margin: 0 -18px; padding: 19px 18px; }
+  .nzc-workspace .parameter-footer { margin-left: -18px; margin-right: -18px; padding: 14px 18px; }
+  .nzc-workspace .parameter-value-row { grid-template-columns: minmax(0, 1fr) 94px; }
+  .nzc-workspace .process-select { padding: 15px 10px; }
+  .nzc-workspace .flow-card .small-label { display: none; }
+  .nzc-workspace .run-actions { gap: 13px; }
+  .nzc-workspace .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .nzc-workspace .topbar { padding: 0 18px 0 8px; gap: 10px; }
+  .nzc-workspace .header-brand { flex-basis: 280px; min-width: 180px; }
+  .nzc-workspace .breadcrumbs { flex-wrap: wrap; gap: 7px; }
+  .nzc-workspace .workspace-summary { flex-wrap: wrap; gap: 16px; }
+  .nzc-workspace .boundary-summary { padding-left: 0; border: 0; }
+  .nzc-workspace .workbench { grid-template-columns: minmax(0, 1fr); }
+  .nzc-workspace .parameter-card { position: static; }
+  .nzc-workspace .parameter-value-row { grid-template-columns: minmax(0, 1fr) 125px; }
+  .nzc-workspace .parameter-field textarea { min-height: 140px; }
+  .nzc-workspace .run-bar { flex-direction: column; align-items: stretch; }
+  .nzc-workspace .run-actions { justify-content: space-between; }
+  .nzc-workspace .run-bar p { max-width: none; }
+  .nzc-workspace .page-footer > span:nth-child(2) { display: none; }
+}
+@media (max-width: 580px) {
+  .nzc-workspace { --sidebar: 58px; }
+  .nzc-workspace .sidebar { padding: 13px 5px; }
+  .nzc-workspace .nav-item { padding: 12px 10px; }
+  .nzc-workspace .topbar { min-height: 79px; padding: 4px 10px; flex-direction: column; gap: 0; align-items: stretch; }
+  .nzc-workspace .header-brand { flex: none; width: 230px; max-width: 100%; align-self: center; }
+  .nzc-workspace .topbar-context { padding: 0 2px 10px; }
+  .nzc-workspace .breadcrumbs { justify-content: center; font-size: .75rem; }
+  .nzc-workspace main { padding: 24px 14px; }
+  .nzc-workspace .page-heading { flex-direction: column; align-items: stretch; gap: 18px; }
+  .nzc-workspace .heading-actions { flex-direction: row; flex-wrap: wrap; }
+  .nzc-workspace .heading-actions .button { font-size: .8125rem; padding: 9px 11px; }
+  .nzc-workspace .workspace-summary { padding: 15px; }
+  .nzc-workspace .product-picker { flex-wrap: wrap; gap: 10px; }
+  .nzc-workspace .boundary-summary { display: flex; }
+  .nzc-workspace .segment { padding: 7px 12px; }
+  .nzc-workspace .material-fields { grid-template-columns: minmax(0, 1fr); }
+  .nzc-workspace .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nzc-workspace .section-heading { gap: 7px; }
+  .nzc-workspace .section-heading h2 { font-size: 1rem; }
+  .nzc-workspace .radio-pill { font-size: .75rem; padding: 5px 7px; }
+  .nzc-workspace .material-card,
+  .nzc-workspace .route-card { padding: 17px 14px; }
+  .nzc-workspace .parameter-value-row { grid-template-columns: minmax(0, 1fr) 85px; }
+  .nzc-workspace .parameter-caption { align-items: flex-start; }
+  .nzc-workspace .parameter-heading h2 { font-size: 1.3125rem; }
+  .nzc-workspace .parameter-footer { flex-wrap: wrap; }
+  .nzc-workspace .run-actions { flex-wrap: wrap; gap: 15px; }
+  .nzc-workspace .run-bar { padding: 18px; }
+  .nzc-workspace .metrics { grid-template-columns: minmax(0, 1fr); }
+  .nzc-workspace .reference-dialog { padding: 20px 16px; }
+  .nzc-workspace .reference-controls { grid-template-columns: minmax(0, 1fr); }
+  .nzc-workspace .page-footer > span:last-child { margin-left: 0; font-size: .75rem; }
+  .nzc-workspace .skip-link { left: 60px; }
+}

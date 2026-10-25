@@ -1,0 +1,5 @@
+<nav class="scm-mix-flow" aria-label="SCM to mix workflow">
+  <a href="/" class="workflow-stage{% if workflow_stage == 'scm' %} current{% endif %}"{% if workflow_stage == 'scm' %} aria-current="step"{% endif %}><strong>Level 1: Build SCM material</strong></a>
+  <span class="workflow-transfer" aria-hidden="true">→</span>
+  <a href="/recipes" class="workflow-stage{% if workflow_stage == 'mix' %} current{% endif %}"{% if workflow_stage == 'mix' %} aria-current="step"{% endif %}><strong>Level 2: Build a mix</strong></a>
+</nav>

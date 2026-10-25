@@ -1,0 +1,18 @@
+# Copy to local_config.toml on your own computer; never commit the real file.
+# A licensed ecoinvent/Brightway installation is optional for SCM foreground calculations.
+[background]
+project_dir = "/path/to/your/Brightway/project"
+python = "/path/to/python/with/brightway"
+database = "ecoinvent-3.12-cutoff"
+method = ["ecoinvent-3.12", "EF v3.1 no LT", "climate change no LT", "global warming potential (GWP100) no LT"]
+# Optional, if the licensed mixing inventory is stored outside the source tree:
+# preparation_inventory = "/path/to/private/preparation_inventory.json"
+
+# If your licensed database uses another exact provider name/location, override it.
+# No activity IDs, processed-package filenames, or characterization scores are configured.
+# [background.providers.electricity]
+# name = "market for electricity, medium voltage"
+# location = "DE"
+# [background.default_freight]
+# name = "market for transport, freight, lorry, unspecified"
+# location = "RER"

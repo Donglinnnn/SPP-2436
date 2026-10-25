@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Net-Zero Concrete · SCM Workspace · SPP 2436</title>
+  <meta name="theme-color" content="#333333">
+  <meta name="description" content="Net-Zero Concrete SPP 2436 — SCM pathways, electricity and transport life-cycle climate assessment.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='nzc-brand.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lca.css') }}">
+</head>
+<body class="nzc-workspace">
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Net-Zero Concrete SPP 2436 home"><img class="brand-logo" src="{{ url_for('static', filename='brand/NZC_RGB-23.jpg') }}" width="1417" height="1380" alt="Net-Zero Concrete · SPP 2436"></a>
+    <nav class="main-nav" aria-label="Workspace">
+      <button class="nav-item active" data-view="builder"><span data-icon="route"></span>1 · Build SCM material</button>
+      <a class="nav-item" href="/recipes"><span data-icon="box"></span>2 · Build a mix</a>
+      <button class="nav-item" data-view="results"><span data-icon="chart"></span>Results<span class="nav-count" id="resultCount">—</span></button>
+      <button class="nav-item" data-view="projects"><span data-icon="folder"></span>Saved projects</button>
+    </nav>
+  </aside>
+
+  <div class="app-shell">
+    <header class="topbar"><a class="header-brand" href="/" aria-label="Net-Zero Concrete home"><img src="{{ url_for('static', filename='brand/NZC_RGB-25.jpg') }}" width="2013" height="593" alt="Net-Zero Concrete · SPP 2436"></a></header>
+    <main id="main">
+    <div class="page-heading"><div><h1 id="pageTitle">Build your SCM pathway<span class="title-dot">.</span></h1></div><div class="heading-actions"><button class="button primary" id="submitProject"><span data-icon="save"></span>Save project</button></div></div>
+      <div id="notification" class="notification" role="status" aria-live="polite" hidden></div>
+      {% set workflow_stage = 'scm' %}{% include 'scm-mix-flow.html' %}
+
+      <section id="builderView" class="view">
+        <div class="workbench">
+          <div class="workbench-main">
+            <section class="card material-card"><div class="card-heading"><div class="section-heading"><span class="section-number">01</span><h2>Input material</h2></div></div>
+              <div class="material-fields"><label>Project name<input id="pathwayName" value="Steel slag SCM route" autocomplete="off"></label><label>Material name<input id="materialName" value="steel slag" autocomplete="off"></label><label>Location<input id="locationName" value="DE" autocomplete="off"></label><label class="full-width">Material note<textarea id="materialNote" rows="2"></textarea></label></div>
+            </section>
+        <section class="card route-card"><div class="card-heading"><div class="section-heading"><span class="section-number">02</span><h2>Process route</h2></div></div>
+              <div class="process-grid" id="processGrid"></div>
+            </section>
+            <section class="card flow-card"><div class="card-heading"><div class="section-heading"><span data-icon="route"></span><h2>Your selected pathway</h2></div></div><div class="project-flow" id="projectFlow"></div></section>
+          </div>
+        <aside class="card parameter-card"><div class="parameter-heading"><div><h2 id="paramTitle">Grinding</h2></div><span class="status-pill" id="paramStatus">Included</span></div><div id="paramForm"></div></aside>
+        </div>
+        {% include 'lca-settings.html' %}
+      <div class="run-bar"><div><strong id="runLabel">Ready to calculate.</strong></div><div class="run-actions"><label class="functional-unit">Final product <span><input id="functionalUnit" type="number" min="0.000001" step="any" value="1">kg dry</span></label><button class="button primary" id="calculateProject"><span data-icon="play"></span>Calculate LCA</button></div></div>
+      </section>
+
+      <section id="resultsView" class="view" hidden><div class="results-heading"><button class="button primary" id="saveScmItem">Save as SCM material</button><button class="button" id="downloadResult" disabled><span data-icon="download"></span>Export result</button></div><div id="calculationResults" class="results-content"><div class="card empty-state"><span data-icon="chart"></span><h2>No result yet</h2><button class="button" data-view="builder">Back to pathway</button></div></div></section>
+
+      <section id="projectsView" class="view" hidden><div class="results-heading"><button class="button" id="refreshProjects"><span data-icon="refresh"></span>Refresh</button></div><div class="saved-projects" id="savedProjects"></div></section>
+    </main>
+  </div>
+
+  <dialog id="exportDialog" class="reference-dialog" aria-labelledby="exportTitle"><div class="dialog-heading"><h2 id="exportTitle">Export calculation</h2><button class="icon-button" id="closeExport" aria-label="Close export"><span data-icon="close"></span></button></div><textarea id="exportJson" aria-label="Calculation JSON" readonly rows="14" spellcheck="false"></textarea><div class="export-actions"><button class="button" id="selectExport">Select JSON text</button><button class="button primary" id="downloadExport"><span data-icon="download"></span>Download JSON</button></div></dialog>
+  <script src="{{ url_for('static', filename='lca-panel.js') }}"></script>
+  <script src="{{ url_for('static', filename='lca-results.js') }}"></script>
+  <script src="{{ url_for('static', filename='workspace.js') }}"></script>
+  <dialog id="scmItemDialog" class="reference-dialog" aria-labelledby="scmItemTitle">
+    <form id="scmItemForm">
+      <div class="dialog-heading"><h2 id="scmItemTitle">Create a reusable SCM item</h2><button type="button" class="button" id="closeScmItem">Close</button></div>
+      <div class="reference-controls"><label>Material item name<input id="scmItemName" required maxlength="200"></label><label>Particle density (not bulk) · kg/m³<input id="scmItemDensity" type="number" required min="0.001" step="any"></label></div>
+      <details><summary>LCA settings &amp; boundary</summary><p>The paired electricity and process-heat scenario, transport and CO₂ supply settings follow this route. SCM delivery is counted once in a recipe.</p><p>Released CO₂ +1; retained CO₂ −1. Previous-life burdens, reject treatment, use and end of life are excluded.</p></details>
+      <p id="scmItemMessage" role="status" aria-live="polite"></p>
+      <div class="export-actions"><a class="button" id="openScmRecipe" href="/recipes" hidden>Use in a recipe →</a><button class="button primary" id="confirmScmItem" type="submit">Create material item</button></div>
+    </form>
+  </dialog>
+  <script src="{{ url_for('static', filename='material-item.js') }}"></script>
+</body>
+</html>

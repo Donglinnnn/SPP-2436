@@ -1,0 +1,14 @@
+<section class="card lca-settings" aria-labelledby="lcaSettingsTitle">
+  <div class="card-heading"><div class="section-heading"><span class="section-number">03</span><h2 id="lcaSettingsTitle">LCA background</h2></div></div>
+  <div id="lcaCatalogueStatus" class="input-note" role="status">Loading local electricity, heat and freight datasets…</div>
+  <label>Energy scenario<select id="electricitySource" disabled></select></label>
+  <label id="lcaCo2SourceField" hidden>CO₂ source<select id="lcaCo2Source"><option value="C0">C0 · Cement-kiln flue-gas capture and conditioning</option><option value="C1">C1 · By-product CO₂ (no source burden allocated; shared transport)</option><option value="C2">C2 · Merchant liquid CO₂</option></select></label>
+</section>
+<section class="card lca-settings" aria-labelledby="transportTitle">
+  <div class="card-heading"><div class="section-heading"><span class="section-number">04</span><h2 id="transportTitle">Waste transport to processing</h2></div></div>
+  <div class="transport-grid">
+    {% for key,title in [('waste_to_process','Waste → processing facility')] %}
+    <section class="transport-leg" data-transport="{{ key }}"><div class="transport-leg-top"><label class="transport-toggle"><input id="{{ key }}Enabled" type="checkbox"><strong>{{ title }}</strong></label></div><div id="{{ key }}Fields" hidden><label>One-way loaded distance · km<input id="{{ key }}Distance" type="number" min="0.001" step="any"></label><label>Freight dataset<select id="{{ key }}Source" disabled></select></label></div></section>
+    {% endfor %}
+  </div>
+</section>
